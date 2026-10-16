@@ -64,8 +64,7 @@ macOS asks for **Screen & System Audio Recording** permission on the first captu
 ## Native app (Rust, in progress)
 
 A native rewrite in Rust + [GPUI](https://www.gpui.rs) lives at the repo root (`Cargo.toml`,
-`src/`). It reads the same data folder and settings as the Electron app. The plan, status and
-known gaps are in [`docs/rewrite-plan.md`](docs/rewrite-plan.md); the hands-on checklist is
+`src/`). It reads the same data folder and settings as the Electron app. The hands-on checklist is
 [`docs/manual-test-checklist.md`](docs/manual-test-checklist.md). Contributor rules are in
 [`AGENTS.md`](AGENTS.md).
 
