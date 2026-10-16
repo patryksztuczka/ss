@@ -7,8 +7,8 @@ the native Rust + GPUI rewrite of the Electron app in `apps/desktop`, which stay
 in the repo as the parity reference until cut-over.
 
 Targets are macOS 15+ on Apple silicon only. Do not add Linux code, platform
-traits or cross-platform seams. Updates (Sparkle) and release packaging are
-deferred; do not add them until asked.
+traits or cross-platform seams. Updates (Sparkle), Developer ID signing and
+notarization are deferred; do not add them until asked.
 
 ## Architecture
 
@@ -159,6 +159,7 @@ cargo run -- debug record-screen --seconds 3 --out /tmp/test.mov   # delete afte
 cargo run -- debug poster /tmp/test.mov --out /tmp/poster.png
 scripts/capture-preview.sh /tmp/ss-editor.png editor --highlight
 node scripts/fixtures/compose-reference/run.mjs   # regenerate compose references
+scripts/bundle.sh   # target/release/ss.app and the DMG
 cargo fmt --check
 cargo clippy --all-targets --all-features -- -D warnings
 cargo test
@@ -174,5 +175,9 @@ Xcode's Metal compiler; the Command Line Tools are enough.
 - Bundle identifier `dev.sztuczka.ss`, product name `ss`, executable `ss`.
 - `LSUIElement` (no Dock icon) and `LSMinimumSystemVersion` 15.0, arm64 only.
 - The data folder name stays `ss`.
-- Signing, notarization, DMG and Sparkle are deferred; do not add a release
-  script until asked.
+- `scripts/bundle.sh` builds `target/release/ss.app` (ad-hoc signed) and
+  `ss-<version>-arm64.dmg`. The version comes from `Cargo.toml` only.
+- `scripts/release.sh X.Y.Z` bumps the version, commits, tags `vX.Y.Z` and
+  pushes; `.github/workflows/release.yml` builds the DMG on the tag and
+  publishes the GitHub release. See `docs/releasing.md`.
+- Developer ID signing, notarization and Sparkle are deferred.
