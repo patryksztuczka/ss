@@ -4,13 +4,11 @@
 
 ss is a menu-bar-only macOS screenshot and screen-recording tool. This crate is
 the native Rust + GPUI rewrite of the Electron app in `apps/desktop`, which stays
-in the repo as the parity reference until cut-over. `docs/rewrite-plan.md` is
-the approved plan and the source of truth for scope, order of work and
-intentional behaviour changes.
+in the repo as the parity reference until cut-over.
 
 Targets are macOS 15+ on Apple silicon only. Do not add Linux code, platform
 traits or cross-platform seams. Updates (Sparkle) and release packaging are
-deferred; do not add them until the plan says so.
+deferred; do not add them until asked.
 
 ## Architecture
 
@@ -96,9 +94,9 @@ stays separate from the pure model in `settings`.
   changed something. Saves are atomic (temp file + rename).
 - ss is an accessory app at all times: no Dock icon, even with a window open.
   Closing the last window keeps the process running; ⌘Q quits.
-- Everything not listed in plan §7 (shortcut defaults and presets, accelerator
-  rules, file names and locations, pruning, afterCapture modes, window sizes,
-  timings, and copy) must match the Electron app.
+- Apart from deliberate behaviour changes, everything (shortcut defaults and
+  presets, accelerator rules, file names and locations, pruning, afterCapture
+  modes, window sizes, timings, and copy) must match the Electron app.
 - Blocking work (child processes, OCR, image encode/decode, compositing) runs
   on GPUI's background executor, never on the main thread. Small settings
   writes may stay synchronous.
@@ -176,5 +174,5 @@ Xcode's Metal compiler; the Command Line Tools are enough.
 - Bundle identifier `dev.sztuczka.ss`, product name `ss`, executable `ss`.
 - `LSUIElement` (no Dock icon) and `LSMinimumSystemVersion` 15.0, arm64 only.
 - The data folder name stays `ss`.
-- Signing, notarization, DMG and Sparkle are deferred; see the plan before
-  adding any release script.
+- Signing, notarization, DMG and Sparkle are deferred; do not add a release
+  script until asked.
