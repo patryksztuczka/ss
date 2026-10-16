@@ -66,7 +66,8 @@ macOS asks for **Screen & System Audio Recording** permission on the first captu
 A native rewrite in Rust + [GPUI](https://www.gpui.rs) lives at the repo root (`Cargo.toml`,
 `src/`). It reads the same data folder and settings as the Electron app. The hands-on checklist is
 [`docs/manual-test-checklist.md`](docs/manual-test-checklist.md). Contributor rules are in
-[`AGENTS.md`](AGENTS.md).
+[`AGENTS.md`](AGENTS.md). Releases (a tag plus a DMG) are described in
+[`docs/releasing.md`](docs/releasing.md).
 
 Requires Rust stable (`~/.cargo/bin` on `PATH`) and the Xcode Command Line Tools; GPUI compiles
 its Metal shaders at runtime, so full Xcode isn't needed.
