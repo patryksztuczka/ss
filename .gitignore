@@ -1,0 +1,12 @@
+node_modules/
+.claude/
+dist/
+dist-electron/
+out/
+.vite-plus/
+.DS_Store
+*.log
+.env
+.env.*
+release/
+/target

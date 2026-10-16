@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, monospace;
+
+  --color-canvas: #f7f5f2;
+  --color-stage: #efece8;
+  --color-panel: #fbfaf8;
+  --color-line: rgb(28 25 23 / 0.07);
+  --color-ink: #1c1b1a;
+  --color-ink-soft: #57534e;
+  --color-muted: #9a948d;
+  --color-accent: #7c5cff;
+  --color-accent-soft: rgb(124 92 255 / 0.12);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
+
+  --animate-fade-in: fade-in 260ms var(--ease-out-soft) both;
+  --animate-rise-in: rise-in 420ms var(--ease-out-soft) both;
+  --animate-slide-in: slide-in 520ms var(--ease-spring) both;
+  --animate-slide-out: slide-out 260ms var(--ease-out-soft) both;
+  --animate-toast: toast 2200ms var(--ease-out-soft) both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(110%);
+  }
+}
+
+@keyframes slide-out {
+  to {
+    opacity: 0;
+    transform: translateX(60%);
+  }
+}
+
+@keyframes toast {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  12%,
+  80% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+    cursor: default;
+  }
+
+  button {
+    cursor: default;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+.drag {
+  -webkit-app-region: drag;
+}
+
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+
+/* OCR text layer: invisible glyphs that sit exactly on top of the screenshot's text. */
+.text-layer span {
+  position: absolute;
+  color: transparent;
+  white-space: pre;
+  transform-origin: 0 0;
+  user-select: text;
+  cursor: text;
+  line-height: 1;
+  border-radius: 0.15em;
+  transition: background-color 160ms var(--ease-out-soft);
+}
+
+.text-layer span::selection {
+  background: rgb(124 92 255 / 0.32);
+  color: transparent;
+}
+
+.text-layer.highlight span {
+  background: rgb(124 92 255 / 0.13);
+}
+
+/* Range input styled like the reference: thin track, soft white knob, accent fill. */
+input[type="range"].slider {
+  appearance: none;
+  width: 100%;
+  height: 18px;
+  background: transparent;
+  --fill: 50%;
+}
+
+input[type="range"].slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--color-accent) var(--fill),
+    rgb(28 25 23 / 0.09) var(--fill)
+  );
+}
+
+input[type="range"].slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -7px;
+  border-radius: 999px;
+  background: white;
+  box-shadow:
+    0 0 0 0.5px rgb(0 0 0 / 0.12),
+    0 1px 3px rgb(0 0 0 / 0.18);
+  transition: transform 160ms var(--ease-spring);
+}
+
+input[type="range"].slider:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
