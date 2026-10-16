@@ -1,0 +1,52 @@
+[package]
+name = "ss"
+version = "0.1.0"
+edition = "2024"
+description = "Shortcut-driven screenshots and screen recordings for macOS"
+publish = false
+
+[dependencies]
+clap = { version = "4.6.7", features = ["derive"] }
+color-eyre = "0.6.5"
+dirs = "7.0.0"
+fastrand = "2.5.0"
+fs2 = "0.4.3"
+futures = "0.3.34"
+image = { version = "0.25", default-features = false, features = ["png"] }
+jiff = "0.2.38"
+libc = "0.2.189"
+qcms = "0.3"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"
+tiny-skia = { version = "0.11.4", default-features = false, features = ["std", "simd", "png-format"] }
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+arboard = { version = "3.6.1", default-features = false }
+block2 = "0.6.2"
+# `runtime_shaders` compiles GPUI's Metal shaders at launch, so the build does
+# not need Xcode's `metal` compiler (Command Line Tools do not ship it).
+gpui = { version = "0.2.2", default-features = false, features = ["font-kit", "runtime_shaders"] }
+gpui-symbols = { version = "0.6.1", default-features = false, features = ["component", "cache"] }
+objc2 = "0.6.4"
+objc2-app-kit = "0.3.2"
+objc2-core-foundation = "0.3.2"
+objc2-core-graphics = "0.3.2"
+objc2-foundation = "0.3.2"
+objc2-quick-look-thumbnailing = "0.3.2"
+objc2-service-management = { version = "0.3.2", features = ["SMAppService"] }
+objc2-user-notifications = "0.3.2"
+objc2-vision = "0.3.2"
+raw-window-handle = "0.6.2"
+
+[dev-dependencies]
+tempfile = "3.27.0"
+
+[target.'cfg(target_os = "macos")'.dev-dependencies]
+gpui = { version = "0.2.2", default-features = false, features = ["test-support"] }
+
+# Image work (tiny-skia, image, qcms) is unusably slow unoptimised; keep
+# debug builds interactive without optimising ss itself.
+[profile.dev.package."*"]
+opt-level = 2

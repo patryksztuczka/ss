@@ -1,0 +1,187 @@
+{
+  "electron": "44.7.0",
+  "chrome": "152.0.7977.130",
+  "insetColor": "#ffffff",
+  "cases": [
+    {
+      "file": "case-0.png",
+      "style": {
+        "padding": 36,
+        "inset": 0,
+        "radius": 30,
+        "shadow": 45,
+        "background": "sky",
+        "customColor": "#e8e4df",
+        "ratio": "auto"
+      },
+      "layout": {
+        "width": 276,
+        "height": 213,
+        "card": {
+          "x": 18,
+          "y": 18,
+          "width": 240,
+          "height": 177
+        },
+        "image": {
+          "x": 18,
+          "y": 18,
+          "width": 240,
+          "height": 177
+        },
+        "radius": 2.782441374045462,
+        "inset": 0
+      }
+    },
+    {
+      "file": "case-1.png",
+      "style": {
+        "padding": 60,
+        "inset": 0,
+        "radius": 60,
+        "shadow": 80,
+        "background": "desktop",
+        "customColor": "#e8e4df",
+        "ratio": "auto"
+      },
+      "layout": {
+        "width": 300,
+        "height": 237,
+        "card": {
+          "x": 30,
+          "y": 30,
+          "width": 240,
+          "height": 177
+        },
+        "image": {
+          "x": 30,
+          "y": 30,
+          "width": 240,
+          "height": 177
+        },
+        "radius": 5.564882748090924,
+        "inset": 0
+      }
+    },
+    {
+      "file": "case-2.png",
+      "style": {
+        "padding": 30,
+        "inset": 0,
+        "radius": 30,
+        "shadow": 50,
+        "background": "none",
+        "customColor": "#e8e4df",
+        "ratio": "auto"
+      },
+      "layout": {
+        "width": 270,
+        "height": 207,
+        "card": {
+          "x": 15,
+          "y": 15,
+          "width": 240,
+          "height": 177
+        },
+        "image": {
+          "x": 15,
+          "y": 15,
+          "width": 240,
+          "height": 177
+        },
+        "radius": 2.782441374045462,
+        "inset": 0
+      }
+    },
+    {
+      "file": "case-3.png",
+      "style": {
+        "padding": 20,
+        "inset": 0,
+        "radius": 0,
+        "shadow": 0,
+        "background": "custom",
+        "customColor": "#da8216",
+        "ratio": "auto"
+      },
+      "layout": {
+        "width": 260,
+        "height": 197,
+        "card": {
+          "x": 10,
+          "y": 10,
+          "width": 240,
+          "height": 177
+        },
+        "image": {
+          "x": 10,
+          "y": 10,
+          "width": 240,
+          "height": 177
+        },
+        "radius": 0,
+        "inset": 0
+      }
+    },
+    {
+      "file": "case-4.png",
+      "style": {
+        "padding": 42,
+        "inset": 0,
+        "radius": 100,
+        "shadow": 66,
+        "background": "love",
+        "customColor": "#e8e4df",
+        "ratio": "16:9"
+      },
+      "layout": {
+        "width": 389,
+        "height": 219,
+        "card": {
+          "x": 75,
+          "y": 21,
+          "width": 240,
+          "height": 177
+        },
+        "image": {
+          "x": 75,
+          "y": 21,
+          "width": 240,
+          "height": 177
+        },
+        "radius": 9.27480458015154,
+        "inset": 0
+      }
+    },
+    {
+      "file": "case-5.png",
+      "style": {
+        "padding": 36,
+        "inset": 40,
+        "radius": 100,
+        "shadow": 66,
+        "background": "rain",
+        "customColor": "#e8e4df",
+        "ratio": "1:1"
+      },
+      "layout": {
+        "width": 292,
+        "height": 292,
+        "card": {
+          "x": 18,
+          "y": 50,
+          "width": 256,
+          "height": 193
+        },
+        "image": {
+          "x": 26,
+          "y": 58,
+          "width": 240,
+          "height": 177
+        },
+        "radius": 9.27480458015154,
+        "inset": 8
+      }
+    }
+  ]
+}
