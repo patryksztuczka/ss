@@ -353,8 +353,8 @@ mod tests {
 
     /// Rust Vision output against the Electron Swift helper's, on a capture of
     /// ss's own onboarding screen (no personal text). The reference is
-    /// `swiftc apps/desktop/native/helper.swift`, `ss-helper ocr`, then
-    /// Electron's `sortLines` + `JSON.stringify`.
+    /// `ss-helper ocr` built from `apps/desktop/native/helper.swift` (removed
+    /// after d2a487e), then Electron's `sortLines` + `JSON.stringify`.
     #[test]
     fn matches_the_swift_helper_on_the_fixture() {
         let image = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/ocr-welcome.png");

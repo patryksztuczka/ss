@@ -2,9 +2,10 @@
 
 ## Purpose
 
-ss is a menu-bar-only macOS screenshot and screen-recording tool. This crate is
-the native Rust + GPUI rewrite of the Electron app in `apps/desktop`, which stays
-in the repo as the parity reference until cut-over.
+ss is a menu-bar-only macOS screenshot and screen-recording tool in Rust +
+GPUI. It replaced an Electron app, removed after `d2a487e`; read it with
+`git show d2a487e:apps/desktop/<path>`. Comments that say "port of `X.ts`"
+refer to that code.
 
 Targets are macOS 15+ on Apple silicon only. Do not add Linux code, platform
 traits or cross-platform seams. Updates (Sparkle), Developer ID signing and
@@ -60,7 +61,7 @@ One binary crate at the repo root. Modules marked *planned* do not exist yet.
   gradients, rounded card, Gaussian-approximated shadow, edge colour, PNG
   export). Sources are converted from their ICC profile to sRGB (qcms), as
   Chromium does. Pure; checked against PNGs rendered by the Electron app's
-  real `compose.ts` (`tests/fixtures/compose`).
+  real `compose.ts` (`tests/fixtures/compose`, frozen).
 - `text_selection`: word-granular selection over the OCR glyphs.
 - `color_panel`: `NSColorPanel` for the Custom background.
 - `desktop_ui`: the light-palette tokens, easings and shared controls.
@@ -83,8 +84,8 @@ stays separate from the pure model in `settings`.
 
 ## Invariants
 
-- The data folder is shared with the Electron build and read in place. Never
-  delete anything in the real `~/Library/Application Support/ss`. Tests and
+- The data folder layout is the Electron app's, so its users upgrade in
+  place. Never delete anything in the real `~/Library/Application Support/ss`. Tests and
   development runs use temp dirs via `SS_APPLICATION_SUPPORT_DIR`. `status`
   and other read-only commands must not write to the data folder.
 - `settings.json` keeps Electron's field names, defaults, key order and
@@ -94,9 +95,9 @@ stays separate from the pure model in `settings`.
   changed something. Saves are atomic (temp file + rename).
 - ss is an accessory app at all times: no Dock icon, even with a window open.
   Closing the last window keeps the process running; ⌘Q quits.
-- Apart from deliberate behaviour changes, everything (shortcut defaults and
-  presets, accelerator rules, file names and locations, pruning, afterCapture
-  modes, window sizes, timings, and copy) must match the Electron app.
+- Shortcut defaults and presets, accelerator rules, file names and
+  locations, pruning and afterCapture modes match the Electron app; change
+  them only deliberately.
 - Blocking work (child processes, OCR, image encode/decode, compositing) runs
   on GPUI's background executor, never on the main thread. Small settings
   writes may stay synchronous.
@@ -115,9 +116,8 @@ stays separate from the pure model in `settings`.
   `card` / `divided_card`, `settings_row` / `compact_row`, `button`, `kbd`,
   `key_caps`, `segmented`, `switch_toggle`, `status_pill`, `hint`. Do not add
   ad-hoc headers, rows, colours or widths in a window; extend `desktop_ui`.
-- Use the ss light palette from `apps/desktop/src/renderer/src/index.css`
-  (canvas, stage, panel, line, ink, ink-soft, muted, accent, accent-soft),
-  not HEX's dark one. Port visuals from `components/ui.tsx`.
+- Use the ss light palette in `desktop_ui` (canvas, stage, panel, line, ink,
+  ink-soft, muted, accent, accent-soft), not HEX's dark one.
 - Standard windows use `desktop_ui::window_options`: transparent titlebar,
   traffic lights at (18, 18), canvas background. The root element tracks a
   focus handle and handles `CloseWindow` with `window.remove_window()`.
@@ -134,7 +134,7 @@ stays separate from the pure model in `settings`.
   (`ease_spring`) are applied inside the animator, never via `with_easing`.
 - GPUI stops drawing occluded windows; `ss preview` floats its window without
   activating so screenshots render.
-- One direct line of copy per control. Reuse the Electron copy verbatim.
+- One direct line of copy per control.
 - Motion uses `desktop_ui::ease_out_soft` / `ease_spring` and the duration
   constants there.
 - Layout behaviour that matters gets a `#[gpui::test]` with `debug_selector`.
@@ -158,7 +158,6 @@ cargo run -- debug compose capture.png --out /tmp/export.png
 cargo run -- debug record-screen --seconds 3 --out /tmp/test.mov   # delete afterwards
 cargo run -- debug poster /tmp/test.mov --out /tmp/poster.png
 scripts/capture-preview.sh /tmp/ss-editor.png editor --highlight
-node scripts/fixtures/compose-reference/run.mjs   # regenerate compose references
 scripts/bundle.sh   # target/release/ss.app and the DMG
 cargo fmt --check
 cargo clippy --all-targets --all-features -- -D warnings

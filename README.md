@@ -49,28 +49,10 @@ Both folders can be changed in Settings.
 
 ## Development
 
-Requires macOS, Node ≥ 22, pnpm, and the Xcode Command Line Tools (`swiftc` builds the OCR helper).
-
-```sh
-pnpm install
-pnpm dev         # renderer dev server + Electron
-pnpm typecheck   # TypeScript 7
-pnpm lint
-pnpm dist        # unsigned .dmg/.zip in apps/desktop/release
-```
-
-macOS asks for **Screen & System Audio Recording** permission on the first capture. In development, the terminal running `pnpm dev` is the app that needs it.
-
-## Native app (Rust, in progress)
-
-A native rewrite in Rust + [GPUI](https://www.gpui.rs) lives at the repo root (`Cargo.toml`,
-`src/`). It reads the same data folder and settings as the Electron app. The hands-on checklist is
-[`docs/manual-test-checklist.md`](docs/manual-test-checklist.md). Contributor rules are in
+Requires Rust stable (`~/.cargo/bin` on `PATH`) and the Xcode Command Line Tools; GPUI compiles
+its Metal shaders at runtime, so full Xcode isn't needed. Contributor rules are in
 [`AGENTS.md`](AGENTS.md). Releases (a tag plus a DMG) are described in
 [`docs/releasing.md`](docs/releasing.md).
-
-Requires Rust stable (`~/.cargo/bin` on `PATH`) and the Xcode Command Line Tools; GPUI compiles
-its Metal shaders at runtime, so full Xcode isn't needed.
 
 ```sh
 # Develop against a scratch data folder, never your real one:
@@ -99,9 +81,12 @@ cargo fmt --check && cargo clippy --all-targets -- -D warnings && cargo test
 `SS_APPLICATION_SUPPORT_DIR` points the app at another data folder; use it for every `app` run
 during development. `status` and the `debug` commands only read the real folder.
 
+macOS asks for **Screen & System Audio Recording** permission on the first capture. In
+development, the terminal running ss is the app that needs it.
+
 ## How it's built
 
-- `apps/desktop/src/main`: Electron main process, written with Effect 4 services and layers (`Screencapture`, `Recorder`, `Ocr`, `CaptureStore`, `SettingsStore`, `Clipboard`, `Windows`, `Shortcuts`, `Actions`, `Tray`, `Ipc`). Pixels come from macOS's own `screencapture` binary, which gives the native selection UI and hardware-encoded recordings.
-- `apps/desktop/src/shared`: Effect `Schema` definitions for settings, OCR output, and the IPC contract. Both processes validate every message against them.
-- `apps/desktop/src/renderer`: React 19 + Tailwind 4. The floating preview, editor (canvas compositor + OCR text layer), recording-region overlay, and settings.
-- `apps/desktop/native/helper.swift`: a small native CLI (`ss-helper`), compiled at build time. It handles Vision OCR, fresh Screen Recording checks and prompts, and toggling the macOS screenshot shortcuts.
+One Rust crate on [GPUI](https://www.gpui.rs) and AppKit. Pixels come from macOS's own
+`screencapture` binary, which gives the native selection UI and hardware-encoded recordings. OCR
+uses Apple Vision, the editor composites with tiny-skia, and global shortcuts are Carbon hot keys.
+ss started as an Electron app; that code was removed after commit `d2a487e`.

@@ -1,4 +1,4 @@
-//! Port of `apps/desktop/src/shared/settings.ts` plus the load/save half of
+//! Port of `shared/settings.ts` plus the load/save half of
 //! `SettingsStore.ts`. Field names, defaults and the 2-space JSON layout match
 //! the Electron build so either app can read the other's file.
 //!
